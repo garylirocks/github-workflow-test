@@ -1,3 +1,5 @@
+name: Test env variables
+
 on:
   workflow_dispatch:
   push:
