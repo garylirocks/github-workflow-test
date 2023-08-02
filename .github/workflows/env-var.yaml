@@ -1,0 +1,22 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  workflowVar: Hello ${{ vars.PET }}
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    env:
+      jobVar: A job var
+    steps:
+    - name: Print
+      env:
+        stepVar: A step var
+      run: |
+        echo $workflowVar
+        echo $jobVar
+        echo $stepVar
