@@ -1,0 +1,14 @@
+name: Test strategy.matrix
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    strategy:
+      matrix:
+        target: [dev, stage, prod]
+    runs-on: ubuntu-latest
+    steps:
+      - id: step ${{ matrix.target }}
+        run: echo Hello ${{ matrix.target }}
