@@ -1,0 +1,25 @@
+name: Use GITHUB_ENV to set env variables
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set an env var
+        run: |
+          echo "gary_fav_color=yellow" >> "$GITHUB_ENV"
+
+      - name: Set a multiline env var
+        run: |
+          {
+            echo 'JSON_RESPONSE<<EOF'
+            curl https://example.com
+            echo EOF
+          } >> "$GITHUB_ENV"
+
+      - name: Use the env var
+        run: |
+          printf '%s\n' "$gary_fav_color" # This will output 'yellow'
+          printf '%s\n' "$JSON_RESPONSE"
