@@ -1,0 +1,23 @@
+name: Set messages - debug/notice/warning/error/debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      # set messages
+      - name: Set debug/notice/warning/error messages
+        run: |
+          echo "::debug::Set the Octocat variable"
+          echo "::notice file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
+          echo "::warning file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
+          echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
+
+      # group log lines
+      - name: Group log lines
+        run: |
+          echo "::group::My title"
+          echo "Inside group"
+          echo "::endgroup::"
