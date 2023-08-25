@@ -1,3 +1,6 @@
+# Set the value of "TARGET_ENV" manually or based on branch:
+#   - If ran manually, then the value is ${{ inputs.environment }}
+#   - If triggered automatically, then the value is based on branch, if main, then "prod", otherwise "dev"
 name: Target an environment based on branch name
 
 run-name: Run it - ${{ inputs.environment || ((github.ref_name == 'main' || github.base_ref == 'main') && 'prod' || 'dev') }}
