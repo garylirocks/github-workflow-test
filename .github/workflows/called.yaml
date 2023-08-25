@@ -27,11 +27,17 @@ jobs:
   example_job:
     name: Generate output
     runs-on: ubuntu-latest
+    environment: dev
     # Map the job outputs to step outputs
     outputs:
       output1: ${{ steps.step1.outputs.output1}}
       output2: ${{ steps.step2.outputs.output2 }}
     steps:
+      - id: step0
+        name: Check access to "vars" context
+        run: echo "My favorite fruit is $favorite_fruit"
+        env:
+          favorite_fruit: ${{ vars.FAVORITE_FRUIT }}
       - id: step1
         # set step output
         run: echo "output1=${{ inputs.name }} is ${{ inputs.age }}" >> $GITHUB_OUTPUT
