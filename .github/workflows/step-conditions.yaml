@@ -1,0 +1,31 @@
+name: Step conditions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Successfull step
+        run: echo "Hello world"
+
+      - name: Again
+        if: success()
+        run: echo "Hello again"
+
+      - name: Failing step
+        id: demo
+        run: exit 1
+
+      - name: The demo step has failed
+        if: failure()
+        run: echo "The demo step has failed"
+
+      - name: Check conditions only
+        if: steps.demo.conclusion == 'failure'
+        run: echo "Check conditions only"
+
+      - name: Check conditions and status
+        if: failure() && steps.demo.conclusion == 'failure'
+        run: echo "Check conditions and status"
