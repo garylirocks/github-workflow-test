@@ -10,5 +10,4 @@ jobs:
         target: [dev, stage, prod]
     runs-on: ubuntu-latest
     steps:
-      - id: step ${{ matrix.target }}
-        run: echo Hello ${{ matrix.target }}
+      - run: echo Hello ${{ matrix.target }}
