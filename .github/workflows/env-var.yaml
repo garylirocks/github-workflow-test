@@ -2,9 +2,6 @@ name: Test env variables
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 env:
   workflowVar: Hello ${{ vars.PET }}
@@ -15,10 +12,10 @@ jobs:
     env:
       jobVar: A job var
     steps:
-    - name: Print
-      env:
-        stepVar: A step var
-      run: |
-        echo $workflowVar
-        echo $jobVar
-        echo $stepVar
+      - name: Print
+        env:
+          stepVar: A step var
+        run: |
+          echo $workflowVar
+          echo $jobVar
+          echo $stepVar
