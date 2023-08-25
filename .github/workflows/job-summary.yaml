@@ -1,0 +1,21 @@
+name: Add a job summary
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        run: |
+          echo "## step1" >> $GITHUB_STEP_SUMMARY
+          echo "Fruit produced" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "- Apple" >> $GITHUB_STEP_SUMMARY
+          echo "- Banana" >> $GITHUB_STEP_SUMMARY
+
+      - id: step2
+        run: |
+          echo "## step2" >> $GITHUB_STEP_SUMMARY
+          echo "Well done :rocket:" >> $GITHUB_STEP_SUMMARY
