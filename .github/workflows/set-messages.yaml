@@ -7,7 +7,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      # set messages
+      # set messages, shows up in summary page
       - name: Set debug/notice/warning/error messages
         run: |
           echo "::debug::Set the Octocat variable"
@@ -15,7 +15,7 @@ jobs:
           echo "::warning file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
           echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
 
-      # group log lines
+      # group log lines, only in logs
       - name: Group log lines
         run: |
           echo "::group::My title"
