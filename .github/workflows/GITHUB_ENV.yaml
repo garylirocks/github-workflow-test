@@ -14,12 +14,13 @@ jobs:
       - name: Set a multiline env var
         run: |
           {
-            echo 'JSON_RESPONSE<<EOF'
-            curl https://example.com
+            echo 'multiline_var<<EOF'
+            echo "line 1"
+            echo "line 2"
             echo EOF
           } >> "$GITHUB_ENV"
 
       - name: Use the env var
         run: |
           printf '%s\n' "$gary_fav_color" # This will output 'yellow'
-          printf '%s\n' "$JSON_RESPONSE"
+          printf '%s\n' "$multiline_var"
