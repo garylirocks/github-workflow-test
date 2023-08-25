@@ -1,0 +1,30 @@
+# Set the value of "TARGET_ENV" manually or based on branch:
+#   - If ran manually, then the value is ${{ inputs.environment }}
+#   - If triggered automatically, then the value is based on branch, if main, then "prod", otherwise "dev"
+name: Target an environment based on branch name
+
+run-name: Run it - ${{ inputs.environment || ((github.ref_name == 'main' || github.base_ref == 'main') && 'prod' || 'dev') }}
+
+on:
+  push:
+    branches:
+      - autorun
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Environment to deploy to
+        default: dev
+        options:
+          - dev
+          - prod
+
+env:
+  TARGET_ENV: ${{ inputs.environment || ((github.ref_name == 'main' || github.base_ref == 'main') && 'prod' || 'dev') }}
+
+jobs:
+  # Prepare TARGET_ENV based on chosen environment or branch name
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Target environment is " $TARGET_ENV
