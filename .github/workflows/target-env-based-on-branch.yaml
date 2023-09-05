@@ -28,3 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Target environment is " $TARGET_ENV
+
+  printInputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo $inputsAsJson
+        env:
+          inputsAsJson: "${{ toJSON(inputs) }}"
