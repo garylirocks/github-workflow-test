@@ -34,6 +34,6 @@ jobs:
     steps:
       - run: |
           echo $inputsAsJson
-          echo $inputsAsJson.environment
+          echo ${{ inputs.environment }}
         env:
           inputsAsJson: "${{ toJSON(inputs) }}"
