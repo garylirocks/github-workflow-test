@@ -32,6 +32,8 @@ jobs:
   printInputs:
     runs-on: ubuntu-latest
     steps:
-      - run: echo $inputsAsJson
+      - run: |
+          echo $inputsAsJson
+          echo $inputsAsJson.environment
         env:
           inputsAsJson: "${{ toJSON(inputs) }}"
