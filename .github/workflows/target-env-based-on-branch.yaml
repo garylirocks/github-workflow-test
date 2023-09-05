@@ -29,6 +29,7 @@ jobs:
     steps:
       - run: echo "Target environment is " $TARGET_ENV
 
+  # when auto triggered, `inputs` is an empty object, and `inputs.field_name` is ''
   printInputs:
     runs-on: ubuntu-latest
     steps:
