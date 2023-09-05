@@ -28,3 +28,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Target environment is " $TARGET_ENV
+
+  # when auto triggered, `inputs` is an empty object, and `inputs.field_name` is ''
+  printInputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo $inputsAsJson
+          echo ${{ inputs.environment == '' && 'empty' || 'not empty' }}
+        env:
+          inputsAsJson: "${{ toJSON(inputs) }}"
