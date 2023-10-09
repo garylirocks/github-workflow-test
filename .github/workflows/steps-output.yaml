@@ -17,7 +17,12 @@ jobs:
           ls non-existing-file.txt
         continue-on-error: true
 
-      - name: Show outputs of previous step
+      - id: step2
         run: |
-          echo "Step 1 outputs:"
-          echo "${{ toJSON(steps.step1.outputs) }}"
+          echo "fruit=bananas" >> $GITHUB_OUTPUT
+          echo "color=bananas" >> $GITHUB_OUTPUT
+
+      - name: Show steps context
+        run: |
+          echo "Steps"
+          echo "${{ toJSON(steps) }}"
