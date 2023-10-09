@@ -1,6 +1,9 @@
 name: Use GITHUB_ENV to set env variables
 
 on:
+  push:
+    branches:
+      - autorun
   workflow_dispatch:
 
 jobs:
