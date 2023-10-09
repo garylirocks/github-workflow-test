@@ -1,0 +1,28 @@
+name: Steps context
+
+on:
+  push:
+    branches:
+      - autorun
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        run: |
+          echo "Hello world"
+          echo "Another line"
+          ls non-existing-file.txt
+        continue-on-error: true
+
+      - id: step2
+        run: |
+          echo "fruit=bananas" >> $GITHUB_OUTPUT
+          echo "color=bananas" >> $GITHUB_OUTPUT
+
+      - name: Show steps context
+        run: |
+          echo "Steps"
+          echo "${{ toJSON(steps) }}"
