@@ -20,4 +20,4 @@ jobs:
       - name: Show outputs of previous step
         run: |
           echo "Step 1 outputs:"
-          echo "  ${{ steps.step1.outputs }}"
+          echo "${{ toJSON(steps.step1.outputs) }}"
