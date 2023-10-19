@@ -14,6 +14,7 @@ permissions:
 jobs:
   az-login-testing:
     runs-on: ubuntu-latest
+    # specify the environment here if your workflow identity federation subject is like  `repo:my-org/my-repo:environment:prod`
     environment: prod
     steps:
     - name: 'Az CLI login'
