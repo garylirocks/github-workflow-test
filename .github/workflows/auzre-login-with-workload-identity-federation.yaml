@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-deploy:
+  az-login-testing:
     runs-on: ubuntu-latest
     steps:
     - name: 'Az CLI login'
