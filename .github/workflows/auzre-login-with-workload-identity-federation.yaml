@@ -9,6 +9,7 @@ permissions:
 jobs:
   az-login-testing:
     runs-on: ubuntu-latest
+    environment: prod
     steps:
     - name: 'Az CLI login'
       uses: azure/login@v1
