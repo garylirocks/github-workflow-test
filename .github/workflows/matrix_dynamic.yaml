@@ -23,4 +23,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "$USA"
+          echo "${{ inputs.zone }}"
+          echo "${{ env[inputs.zone] }}"
