@@ -15,6 +15,7 @@ on:
           - USA
 
 env:
+  zone: ${{ inputs.zone || 'Australia' }}
   Australia: '["dev", "prod"]'
   USA:       '["prod"]'
 
@@ -23,5 +24,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "${{ inputs.zone }}"
-          echo "${{ env[inputs.zone] }}"
+          echo "${{ env.zone }}"
+          echo "${{ env[env.zone] }}"
