@@ -22,6 +22,8 @@ env:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.targets }}
     steps:
       - id: set-matrix
         run: echo "targets='${{ env[env.zone] }}'" >> $GITHUB_OUTPUT
