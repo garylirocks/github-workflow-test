@@ -1,6 +1,9 @@
 name: Test strategy.matrix
 
 on:
+  push:
+    branches:
+      - autorun
   workflow_dispatch:
 
 jobs:
