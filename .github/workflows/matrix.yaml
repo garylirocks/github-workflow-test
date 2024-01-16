@@ -10,4 +10,10 @@ jobs:
         target: [dev, stage, prod]
     runs-on: ubuntu-latest
     steps:
-      - run: echo Hello ${{ matrix.target }}
+      - run: echo "var_${{matrix.target}}=${{matrix.target}}" >> "$GITHUB_OUTPUT"
+        id: step1
+
+      - name: Use output of previous step
+        env:
+          matrix_output: ${{ toJson(steps.step1.outputs) }}
+        run: echo "Output from matrix step is $matrix_output"
