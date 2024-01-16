@@ -20,9 +20,11 @@ env:
   USA:       '["prod"]'
 
 jobs:
-  prepare:
+  plan:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ${{ env[env.zone] }}
     steps:
       - run: |
-          echo "${{ env.zone }}"
-          echo "${{ env[env.zone] }}"
+          echo "hello"
