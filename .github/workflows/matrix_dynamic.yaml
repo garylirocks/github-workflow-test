@@ -29,16 +29,23 @@ jobs:
   plan:
     needs: prepare
     runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJSON(needs.prepare.outputs.targets) }}
     steps:
-      - run: echo "plan"
+      - run: echo "${{ needs.prepare.outputs.targets }}"
+      - run: echo "${{ fromJSON(needs.prepare.outputs.targets) }}"
 
-  apply:
-    needs: plan
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix: ${{ fromJSON(needs.prepare.outputs.targets) }}
-    steps:
-      - run: echo "apply"
+  # plan:
+  #   needs: prepare
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix: ${{ fromJSON(needs.prepare.outputs.targets) }}
+  #   steps:
+  #     - run: echo "plan"
+
+  # apply:
+  #   needs: plan
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     max-parallel: 1
+  #     matrix: ${{ fromJSON(needs.prepare.outputs.targets) }}
+  #   steps:
+  #     - run: echo "apply"
