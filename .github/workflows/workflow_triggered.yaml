@@ -1,0 +1,17 @@
+# This workflow file must exist in the default branch
+name: This workflow is triggered by another workflow
+
+on:
+  workflow_run:
+    workflows:
+      - Trigger another workflow
+    types:
+      - completed
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Data from trigger workflow"
+          echo "github.event.workflow_run ${{ toJson(github.event.workflow_run) }}"
