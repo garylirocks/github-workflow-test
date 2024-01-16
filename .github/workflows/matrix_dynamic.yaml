@@ -1,0 +1,26 @@
+name: Matrix dynamic
+
+on:
+  push:
+    branches:
+      - matrix_dynamic
+  workflow_dispatch:
+    inputs:
+      zone:
+        type: choice
+        description: Environment to target
+        default: Australia
+        options:
+          - Australia
+          - USA
+
+env:
+  Australia: '["dev", "prod"]'
+  USA:       '["prod"]'
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "$USA"
