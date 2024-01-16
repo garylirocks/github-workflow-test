@@ -12,6 +12,8 @@ jobs:
       matrix:
         target: [dev, stage, prod]
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.var_dev }}
     steps:
       - run: echo "var_${{matrix.target}}=${{matrix.target}}" >> "$GITHUB_OUTPUT"
         id: step1
