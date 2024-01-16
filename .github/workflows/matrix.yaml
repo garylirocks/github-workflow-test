@@ -3,7 +3,7 @@ name: Test strategy.matrix
 on:
   push:
     branches:
-      - autorun
+      - matrix
   workflow_dispatch:
 
 jobs:
