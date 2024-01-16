@@ -12,7 +12,7 @@ jobs:
       matrix:
         target: [dev, stage, prod]
     runs-on: ubuntu-latest
-    # dynamic environment based on matrix
+    # dynamic environment based on matrix, each one can have protection rules
     environment: matrix_env_${{matrix.target}}
     steps:
       - run: echo "var_${{matrix.target}}=${{matrix.target}}" >> "$GITHUB_OUTPUT"
