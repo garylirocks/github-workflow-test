@@ -12,6 +12,7 @@ jobs:
       matrix:
         target: [dev, stage, prod]
     runs-on: ubuntu-latest
+    # dynamic environment based on matrix
     environment: matrix_env_${{matrix.target}}
     steps:
       - run: echo "var_${{matrix.target}}=${{matrix.target}}" >> "$GITHUB_OUTPUT"
