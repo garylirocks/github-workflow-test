@@ -16,7 +16,7 @@ on:
 
 env:
   zone: ${{ inputs.zone || 'Australia' }}
-  Australia: '["dev", "prod"]'
+  Australia: '["dev","prod"]'
   USA:       '["prod"]'
 
 jobs:
