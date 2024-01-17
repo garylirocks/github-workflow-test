@@ -44,7 +44,7 @@ jobs:
       - run: echo "plan"
 
   apply:
-    needs: plan
+    needs: ['prepare', 'plan']
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
