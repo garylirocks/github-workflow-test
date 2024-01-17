@@ -16,6 +16,7 @@ on:
 
 env:
   zone: ${{ inputs.zone || 'Australia' }}
+  targets:
   Australia: '[\"dev\",\"prod\"]'
   USA:       '[\"prod\"]'
 
@@ -40,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        targets: ${{ fromJSON(needs.prepare.outputs.targets) }}
+        targets: ${{ needs.prepare.outputs.targets }}
     steps:
       - run: echo "plan"
 
