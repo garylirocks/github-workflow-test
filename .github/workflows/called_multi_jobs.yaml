@@ -1,0 +1,27 @@
+name: Reusable workflow with multiple jobs
+
+on:
+  workflow_call:
+
+jobs:
+  job1:
+    name: Job1
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        run: echo "Job1 step1"
+
+  job2:
+    name: Job2
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        run: echo "Job2 step1"
+
+  job3:
+    name: Job3
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - id: step1
+        run: echo "Job3 step1"

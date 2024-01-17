@@ -1,0 +1,15 @@
+name: Test matrix_environment
+
+on:
+  push:
+    branches:
+      - matrix_caller
+  workflow_dispatch:
+
+jobs:
+  job1:
+    strategy:
+      matrix:
+        target: [dev, prod]
+    name: Calling a reusable workflow
+    uses: ./.github/workflows/called_multi_jobs.yaml

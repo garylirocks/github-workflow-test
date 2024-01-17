@@ -1,0 +1,59 @@
+name: Matrix dynamic
+
+on:
+  push:
+    branches:
+      - matrix_dynamic
+  workflow_dispatch:
+    inputs:
+      zone:
+        type: choice
+        description: Environment to target
+        default: Australia
+        options:
+          - Australia
+          - USA
+
+env:
+  zone: ${{ github.event.inputs.zone || 'Australia' }}
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.set-matrix.outputs.targets }}
+    steps:
+      - uses: actions/checkout@v1
+      - id: set-matrix
+        run: echo "targets=$(jq -c .$zone < demo.json)" >> $GITHUB_OUTPUT
+
+  print:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.prepare.outputs.targets }}
+
+  plan:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true # don't fail other jobs in the matrix
+      matrix:
+        target: ${{ (fromJson(needs.prepare.outputs.targets)) }}
+    steps:
+      - run: echo "plan $target"
+        env:
+          target: ${{ matrix.target }}
+
+  apply:
+    needs: ['prepare', 'plan']
+    runs-on: ubuntu-latest
+    continue-on-error: false # fail all jobs if one fails
+    strategy:
+      max-parallel: 1
+      matrix:
+        target: ${{ (fromJson(needs.prepare.outputs.targets)) }}
+    steps:
+      - run: echo "apply $target"
+        env:
+          target: ${{ matrix.target }}

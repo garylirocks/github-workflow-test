@@ -1,0 +1,13 @@
+name: Trigger another workflow
+
+on:
+  push:
+    branches:
+      - workflow_trigger
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello workflow"

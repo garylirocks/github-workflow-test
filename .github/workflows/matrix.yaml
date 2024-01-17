@@ -1,19 +1,20 @@
 name: Test strategy.matrix
 
 on:
+  push:
+    branches:
+      - matrix
   workflow_dispatch:
 
 jobs:
   job1:
     strategy:
+      max-parallel: 1
       matrix:
         target: [dev, stage, prod]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "var_${{matrix.target}}=${{matrix.target}}" >> "$GITHUB_OUTPUT"
-        id: step1
-
-      - name: Use output of previous step
+      - run: echo $target
         env:
-          matrix_output: ${{ toJson(steps.step1.outputs) }}
-        run: echo "Output from matrix step is $matrix_output"
+          target: ${{ matrix.target }}
+        id: step1
