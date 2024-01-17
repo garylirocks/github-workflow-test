@@ -40,7 +40,7 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.targets] }}
+      matrix: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
     steps:
       - run: echo "plan"
 
