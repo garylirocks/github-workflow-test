@@ -16,8 +16,6 @@ on:
 
 env:
   zone: ${{ inputs.zone || 'Australia' }}
-  # Australia: '[\"dev\",\"prod\"]'
-  # USA:       '[\"prod\"]'
 
 jobs:
   prepare:
@@ -27,14 +25,7 @@ jobs:
       zone: ${{ env.zone }}
     steps:
       - id: set-matrix
-        run: echo "targets={\"Australia\":[\"dev\",\"prod\"],\"NZ\":[\"dev\"]}" >> $GITHUB_OUTPUT
-
-  test:
-    runs-on: ubuntu-latest
-    needs: prepare
-    steps:
-      - run: echo ${{ needs.prepare.outputs.targets }}
-      - run: echo ${{ fromJSON(needs.prepare.outputs.targets) }}
+        run: echo "targets=$(jq -c . < demo.json)" >> $GITHUB_OUTPUT
 
   plan:
     needs: prepare

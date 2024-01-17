@@ -1,0 +1,9 @@
+{
+  "Australia": [
+    "dev",
+    "prod"
+  ],
+  "USA": [
+    "dev"
+  ]
+}
