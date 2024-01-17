@@ -1,6 +1,7 @@
 {
   "Australia": [
     "dev",
+    "np",
     "prod"
   ],
   "USA": [

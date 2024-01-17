@@ -15,43 +15,45 @@ on:
           - USA
 
 env:
-  zone: ${{ inputs.zone || 'Australia' }}
+  zone: ${{ github.event.inputs.zone || 'Australia' }}
 
 jobs:
   prepare:
     runs-on: ubuntu-latest
     outputs:
       targets: ${{ steps.set-matrix.outputs.targets }}
-      zone: ${{ env.zone }}
     steps:
       - uses: actions/checkout@v1
       - id: set-matrix
-        run: echo "targets=$(jq -c . < demo.json)" >> $GITHUB_OUTPUT
+        run: echo "targets=$(jq -c .$zone < demo.json)" >> $GITHUB_OUTPUT
 
   print:
     needs: prepare
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.prepare.outputs.targets }}
-      - run: echo ${{ fromJson(needs.prepare.outputs.targets) }}
-      - run: echo ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
 
+  plan:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true # don't fail other jobs in the matrix
+      matrix:
+        target: ${{ (fromJson(needs.prepare.outputs.targets)) }}
+    steps:
+      - run: echo "plan $target"
+        env:
+          target: ${{ matrix.target }}
 
-  # plan:
-  #   needs: prepare
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       targets: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
-  #   steps:
-  #     - run: echo "plan"
-
-  # apply:
-  #   needs: ['prepare', 'plan']
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     max-parallel: 1
-  #     matrix:
-  #       targets: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
-  #   steps:
-  #     - run: echo "apply"
+  apply:
+    needs: ['prepare', 'plan']
+    runs-on: ubuntu-latest
+    continue-on-error: false # fail all jobs if one fails
+    strategy:
+      max-parallel: 1
+      matrix:
+        target: ${{ (fromJson(needs.prepare.outputs.targets)) }}
+    steps:
+      - run: echo "apply $target"
+        env:
+          target: ${{ matrix.target }}
