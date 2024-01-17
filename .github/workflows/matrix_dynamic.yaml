@@ -40,7 +40,8 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
+      matrix:
+        targets: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
     steps:
       - run: echo "plan"
 
@@ -49,6 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
-      matrix: ${{ fromJSON(needs.prepare.outputs.targets) }}
+      matrix:
+        targets: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
     steps:
       - run: echo "apply"
