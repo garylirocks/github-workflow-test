@@ -1,0 +1,33 @@
+name: Test strategy.matrix
+
+on:
+  push:
+    branches:
+      - matrix
+  workflow_dispatch:
+
+jobs:
+  job1:
+    strategy:
+      max-parallel: 1
+      matrix:
+        target: [dev, stage, prod]
+    runs-on: ubuntu-latest
+    outputs:
+      # !! this does not work as intended, not all the variables are set
+      dev: ${{ steps.step1.outputs.var_dev }}
+      stage: ${{ steps.step1.outputs.var_stage}}
+      prod: ${{ steps.step1.outputs.var_prod }}
+    steps:
+      - run: echo "var_${{matrix.target}}=${{matrix.target}}" >> "$GITHUB_OUTPUT"
+        id: step1
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    env:
+      matrix_output: ${{ toJson(needs.job1.outputs) }}
+    steps:
+      - name: Use output of previous step
+        run: echo "Output from matrix step is $matrix_output"
+      - run: echo "Output from matrix step is $matrix_output"

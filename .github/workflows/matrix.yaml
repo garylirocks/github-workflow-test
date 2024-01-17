@@ -9,21 +9,12 @@ on:
 jobs:
   job1:
     strategy:
+      max-parallel: 1
       matrix:
         target: [dev, stage, prod]
     runs-on: ubuntu-latest
-    outputs:
-      output1: ${{ steps.step1.var_dev }}
     steps:
-      - run: echo "var_${{matrix.target}}=${{matrix.target}}" >> "$GITHUB_OUTPUT"
-        id: step1
-
-
-  job2:
-    runs-on: ubuntu-latest
-    needs: job1
-    steps:
-      - name: Use output of previous step
+      - run: echo $target
         env:
-          matrix_output: ${{ toJson(needs.job1.outputs) }}
-        run: echo "Output from matrix step is $matrix_output"
+          target: ${{ matrix.target }}
+        id: step1
