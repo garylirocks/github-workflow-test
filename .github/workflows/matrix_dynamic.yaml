@@ -26,7 +26,7 @@ jobs:
       targets: ${{ steps.set-matrix.outputs.targets }}
     steps:
       - id: set-matrix
-        run: echo "targets={\"Australia\":[\"dev\",\"prod\"]}" >> $GITHUB_OUTPUT
+        run: echo "targets={\"Australia\":[\"dev\",\"prod\"],\"NZ\":[\"dev\"]}" >> $GITHUB_OUTPUT
 
   test:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJson(needs.prepare.outputs.targets) }}
+      matrix: ${{ (fromJson(needs.prepare.outputs.targets))[env.zone] }}
     steps:
       - run: echo "plan"
 
