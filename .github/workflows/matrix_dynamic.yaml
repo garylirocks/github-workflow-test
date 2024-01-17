@@ -24,24 +24,34 @@ jobs:
       targets: ${{ steps.set-matrix.outputs.targets }}
       zone: ${{ env.zone }}
     steps:
+      - uses: actions/checkout@v1
       - id: set-matrix
         run: echo "targets=$(jq -c . < demo.json)" >> $GITHUB_OUTPUT
 
-  plan:
+  print:
     needs: prepare
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        targets: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
     steps:
-      - run: echo "plan"
+      - run: echo ${{ needs.prepare.outputs.targets }}
+      - run: echo ${{ fromJson(needs.prepare.outputs.targets) }}
+      - run: echo ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
 
-  apply:
-    needs: ['prepare', 'plan']
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        targets: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
-    steps:
-      - run: echo "apply"
+
+  # plan:
+  #   needs: prepare
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       targets: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
+  #   steps:
+  #     - run: echo "plan"
+
+  # apply:
+  #   needs: ['prepare', 'plan']
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     max-parallel: 1
+  #     matrix:
+  #       targets: ${{ (fromJson(needs.prepare.outputs.targets))[needs.prepare.outputs.zone] }}
+  #   steps:
+  #     - run: echo "apply"
