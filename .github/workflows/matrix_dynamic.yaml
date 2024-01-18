@@ -40,7 +40,8 @@ jobs:
     strategy:
       fail-fast: true # don't fail other jobs in the matrix
       matrix:
-        target: ${{ fromJson(needs.prepare.outputs.targets) }}
+        # workflow fails if the list is empty, create a dummy list in place
+        target: ${{ fromJson(needs.prepare.outputs.targets) == '[]' && fromJson('["1"]') || fromJson(needs.prepare.outputs.targets) }}
     steps:
       - run: echo "plan $target"
         env:
