@@ -1,4 +1,4 @@
-name: Matrix dynamic
+name: Matrix empty
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
       targets: '[]'
     steps:
       - id: set-matrix
-        run: echo "hello" >> $GITHUB_OUTPUT
+        run: echo "hello"
 
   plan:
     needs: prepare
