@@ -35,3 +35,11 @@ jobs:
           name: my-artifact
       - name: Display structure of downloaded files
         run: ls -R
+      - uses: actions/download-artifact@v4
+        id: missing
+        with:
+          name: missing-artifact
+      - name: Display structure of downloaded files
+        run: |
+          echo ${{ toJSON(steps.missing) }}
+          ls -R
