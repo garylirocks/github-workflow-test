@@ -2,8 +2,8 @@ name: Matrix dynamic
 
 on:
   push:
-    branches:
-      - matrix_dynamic
+    paths:
+      - '**/matrix_dynamic.yaml'
   workflow_dispatch:
     inputs:
       zone:
@@ -21,7 +21,7 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     outputs:
-      targets: ${{ steps.set-matrix.outputs.targets }}
+      targets: '[]'
     steps:
       - uses: actions/checkout@v1
       - id: set-matrix
