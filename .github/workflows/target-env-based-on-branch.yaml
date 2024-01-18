@@ -8,7 +8,7 @@ run-name: Run it - ${{ inputs.environment || ((github.ref_name == 'main' || gith
 on:
   push:
     branches:
-      - autorun
+      - autorun-env-based-on-branch
   workflow_dispatch:
     inputs:
       environment:
@@ -21,6 +21,7 @@ on:
 
 env:
   TARGET_ENV: ${{ inputs.environment || ((github.ref_name == 'main' || github.base_ref == 'main') && 'prod' || 'dev') }}
+  MYVAR: ${{ contains('hello world', 'hello') }}
 
 jobs:
   # Prepare TARGET_ENV based on chosen environment or branch name
@@ -28,6 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Target environment is " $TARGET_ENV
+      - run: echo "MYVAR " $MYVAR
+      - run: echo "${{ env.MYVAR == 'true' && 'yes' || 'no' }}"
+      - run: echo "${{ env.MYVAR == true && 'yes' || 'no' }}"
 
   # when auto triggered, `inputs` is an empty object, and `inputs.field_name` is ''
   printInputs:
