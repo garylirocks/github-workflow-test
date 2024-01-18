@@ -21,27 +21,20 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     outputs:
-      targets: '[]'
+      targets: ${{ steps.set-matrix.outputs.targets }}
     steps:
       - uses: actions/checkout@v1
       - id: set-matrix
+        # get value from a file using jq
         run: echo "targets=$(jq -c .$zone < demo.json)" >> $GITHUB_OUTPUT
-
-  print:
-    needs: prepare
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ needs.prepare.outputs.targets }}
 
   plan:
     needs: prepare
     runs-on: ubuntu-latest
-    if: ${{ needs.prepare.outputs.targets != '[]' }}
     strategy:
       fail-fast: true # don't fail other jobs in the matrix
       matrix:
-        # workflow fails if the list is empty, create a dummy list in place
-        target: ${{ needs.prepare.outputs.targets == '[]' && fromJson('["1"]') || fromJson(needs.prepare.outputs.targets) }}
+        target: ${{ fromJson(needs.prepare.outputs.targets) }}
     steps:
       - run: echo "plan $target"
         env:

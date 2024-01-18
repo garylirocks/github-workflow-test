@@ -1,0 +1,29 @@
+name: Matrix dynamic
+
+on:
+  push:
+    paths:
+      - '**/matrix_empty.yaml'
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      targets: '[]'
+    steps:
+      - id: set-matrix
+        run: echo "hello" >> $GITHUB_OUTPUT
+
+  plan:
+    needs: prepare
+    runs-on: ubuntu-latest
+    if: ${{ needs.prepare.outputs.targets != '[]' }} # skip this if no targets
+    strategy:
+      matrix:
+        # workflow fails if the list is empty, create a dummy list in place
+        # target: ${{ needs.prepare.outputs.targets == '[]' && fromJson('["1"]') || fromJson(needs.prepare.outputs.targets) }}
+        target: ${{ fromJson(needs.prepare.outputs.targets) }}
+    steps:
+      - run: echo "plan $target"
+        env:
+          target: ${{ matrix.target }}
