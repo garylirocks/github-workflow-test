@@ -36,10 +36,11 @@ jobs:
   plan:
     needs: prepare
     runs-on: ubuntu-latest
+    if: ${{ fromJson(needs.prepare.outputs.targets) != '[]' }}
     strategy:
       fail-fast: true # don't fail other jobs in the matrix
       matrix:
-        target: ${{ (fromJson(needs.prepare.outputs.targets)) }}
+        target: ${{ fromJson(needs.prepare.outputs.targets) }}
     steps:
       - run: echo "plan $target"
         env:
