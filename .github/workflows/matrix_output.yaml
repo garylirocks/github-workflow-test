@@ -8,11 +8,15 @@ on:
       - '**/matrix_output.yaml'
   workflow_dispatch:
 
+env:
+  stages: '[]'
+
 jobs:
   job1:
+
     strategy:
       matrix:
-        target: [dev, stage, prod]
+        target: ${{ fromJson(env.stages) }}
     runs-on: ubuntu-latest
     outputs:
       # !! can't set dynamic keys, you need to use artifacts as a workaround to pass data to next job
